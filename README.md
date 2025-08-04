@@ -1,50 +1,118 @@
-# Welcome to your Expo app 👋
+# 🌍 Nomadic Travel App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**Nomadic Travel** is a modern mobile application built with **Expo Router** and **React Native**, designed to offer users a seamless and immersive travel booking experience. The app features dynamic onboarding, secure authentication, and a scalable architecture that aligns with mobile development best practices.
 
-## Get started
+---
 
-1. Install dependencies
+## 📱 Tech Stack
 
-   ```bash
-   npm install
-   ```
+- **Expo Router** – File-based routing for universal apps
+- **React Native** – Cross-platform native development
+- **TypeScript** – Static typing for safer code
+- **NativeWind (TailwindCSS)** – Utility-first styling for React Native
+- **Zustand** – Minimalistic global and localized state management
+- **TanStack Query** – Data fetching with smart caching and mutation support
+- **Zod** – Declarative schema validation
+- **React Hook Form** – Performant form handling integrated with Zod
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 📂 Project Structure
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+NomadicTravel/
+├── app/                      # Screens and routes (Expo Router)
+│   ├── (auth)/              # Auth screens: login, register, forgot-password
+│   └── onboarding/          # Onboarding carousel
+│
+├── assets/                  # Static assets
+│   └── images/
+│       ├── auth/            # Auth logos and icons
+│       └── onboarding/      # Onboarding backgrounds
+│
+├── components/              # Reusable UI components
+├── constants/               # Global constants (colors, etc.)
+├── hooks/                   # Custom reusable hooks
+├── lib/
+│   ├── api/                 # API configuration (e.g., axios)
+│   └── react-query/         # Query/mutation logic using TanStack Query
+├── store/                   # Zustand stores
+├── types/                   # Global TypeScript types and interfaces
+├── utils/                   # Utility functions (e.g., `cn` class merge)
+├── validation/              # Zod validation schemas
+├── tailwind.config.js       # Tailwind + NativeWind theme configuration
+├── babel.config.js          # Babel plugins (Reanimated, NativeWind)
+└── README.md
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## ✨ Features
 
-To learn more about developing your project with Expo, look at the following resources:
+- 🧭 Onboarding carousel with smooth horizontal scroll and animated dots
+- 🔐 Authentication flows (Login, Register, Forgot Password)
+- 🧠 Password visibility toggle with Zustand
+- 📐 Fully responsive layout with TailwindCSS (NativeWind)
+- 🎨 Custom theming using Tailwind's extended configuration
+- 🧾 Schema-driven form validation with Zod and React Hook Form
+- ⚙️ Modular, scalable, and maintainable project architecture
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+## 🚀 Getting Started
 
-Join our community of developers creating universal apps.
+1. **Clone the Repository**
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+git clone https://github.com/your-org/nomadic-travel.git
+cd nomadic-travel
+```
+
+2. **Install Dependencies**
+
+```bash
+npm install
+```
+
+3. **Start Development Server**
+
+```bash
+npx expo start
+```
+
+
+
+
+
+
+## ✅ TODO 
+- Add authentication API integration using `TanStack Query`
+- Implement token-based session storage in Zustand
+- Add bottom tab navigation with protected routes
+- Build profile and trip planner screens
+- Add offline support and loading states
+
+---
+
+## 👨‍💻 Contributing
+
+1. Fork the repo and create your branch:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+2. Commit your changes and push:
+   ```bash
+   git commit -m "Added your feature"
+   git push origin feature/your-feature-name
+   ```
+3. Open a pull request
+
+---
+
+
+
+## 📜 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+
