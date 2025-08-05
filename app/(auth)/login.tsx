@@ -24,16 +24,22 @@ export default function LoginScreen() {
   const { mutate: login, isPending } = useLogin();
   const { showPassword, togglePassword, setTokens } = useAuthStore();
 
-  const { control, handleSubmit } = useForm<LoginFormData>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
 
   const onSubmit = (data: LoginFormData) => {
     login(data, {
-      onSuccess: (response: AxiosResponse<{ access: string; refresh: string }>) => {
+      onSuccess: (
+        response: AxiosResponse<{ access: string; refresh: string }>
+      ) => {
         setTokens(response.data.access, response.data.refresh);
         Alert.alert("Login Successful", "Welcome back!");
-        router.replace('/');
+        router.replace("/");
       },
       onError: (err: any) => {
         const msg =
@@ -73,15 +79,24 @@ export default function LoginScreen() {
           control={control}
           name="email"
           render={({ field: { onChange, value } }) => (
-            <TextInput
-              placeholder="Your Email"
-              placeholderTextColor={COLORS.text}
-              className="border mb-5 border-text rounded-lg px-4 py-3 text-black"
-              value={value}
-              onChangeText={onChange}
-              autoCapitalize="none"
-              keyboardType="email-address"
-            />
+            <>
+              <TextInput
+                placeholder="Your Email"
+                placeholderTextColor={COLORS.text}
+                className={`border mb-1 border-text rounded-lg px-4 py-3 text-black ${
+                  errors.email ? "border-red-500" : ""
+                }`}
+                value={value}
+                onChangeText={onChange}
+                autoCapitalize="none"
+                keyboardType="email-address"
+              />
+              {errors.email && (
+                <Text className="text-red-500 text-sm mb-3">
+                  {errors.email.message}
+                </Text>
+              )}
+            </>
           )}
         />
 
@@ -90,14 +105,23 @@ export default function LoginScreen() {
             control={control}
             name="password"
             render={({ field: { onChange, value } }) => (
-              <TextInput
-                placeholder="Password"
-                placeholderTextColor={COLORS.text}
-                secureTextEntry={!showPassword}
-                className="border border-text rounded-lg px-4 py-3 text-black pr-12"
-                value={value}
-                onChangeText={onChange}
-              />
+              <>
+                <TextInput
+                  placeholder="Password"
+                  placeholderTextColor={COLORS.text}
+                  secureTextEntry={!showPassword}
+                  className={`border border-text rounded-lg px-4 py-3 text-black pr-12 ${
+                    errors.password ? "border-red-500" : ""
+                  }`}
+                  value={value}
+                  onChangeText={onChange}
+                />
+                {errors.password && (
+                  <Text className="text-red-500 text-sm mt-1">
+                    {errors.password.message}
+                  </Text>
+                )}
+              </>
             )}
           />
           <TouchableOpacity
