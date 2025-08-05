@@ -1,26 +1,47 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosResponse } from "axios";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Controller, useForm } from "react-hook-form";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 import AppButton from "../../components/Button";
 import { COLORS } from "../../constants/colors";
+import { useLogin } from "../../lib/react-query/auth";
 import { useAuthStore } from "../../store/authStore";
 import { LoginFormData } from "../../types";
 import { loginSchema } from "../../validation/loginSchema";
 
 export default function LoginScreen() {
   const router = useRouter();
-  const { showPassword, togglePassword } = useAuthStore();
+  const { mutate: login, isPending } = useLogin();
+  const { showPassword, togglePassword, setTokens } = useAuthStore();
 
   const { control, handleSubmit } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
 
   const onSubmit = (data: LoginFormData) => {
-    console.log("Login:", data);
-  
+    login(data, {
+      onSuccess: (response: AxiosResponse<{ access: string; refresh: string }>) => {
+        setTokens(response.data.access, response.data.refresh);
+        Alert.alert("Login Successful", "Welcome back!");
+        router.replace('/');
+      },
+      onError: (err: any) => {
+        const msg =
+          err?.response?.data?.detail ||
+          "Invalid email or password. Try again.";
+        Alert.alert("Login Failed", msg);
+      },
+    });
   };
 
   return (
@@ -58,6 +79,8 @@ export default function LoginScreen() {
               className="border mb-5 border-text rounded-lg px-4 py-3 text-black"
               value={value}
               onChangeText={onChange}
+              autoCapitalize="none"
+              keyboardType="email-address"
             />
           )}
         />
@@ -91,7 +114,10 @@ export default function LoginScreen() {
       </View>
 
       {/* Forgot Password */}
-      <TouchableOpacity className="self-end mt-2 mb-4" onPress={() => router.push("./forget-password")}>
+      <TouchableOpacity
+        className="self-end mt-2 mb-4"
+        onPress={() => router.push("./forget-password")}
+      >
         <Text className="text-[12px] text-complementary underline font-poppins-regular">
           Forget password?
         </Text>
@@ -104,6 +130,8 @@ export default function LoginScreen() {
         size="md"
         variant="primary"
         className="mb-6"
+        isLoading={isPending}
+        disabled={isPending}
       />
 
       {/* Divider */}
@@ -127,6 +155,7 @@ export default function LoginScreen() {
         variant="outline"
         iconLeft={require("../../assets/images/auth/facebookIcon.png")}
       />
+
       {/* Register Navigation */}
       <View className="flex-row justify-center mt-6">
         <Text className="text-black font-poppins-regular">
