@@ -2,13 +2,13 @@ import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useRef, useState } from "react";
 import {
-    Dimensions,
-    FlatList,
-    ImageBackground,
-    NativeScrollEvent,
-    NativeSyntheticEvent,
-    Text,
-    View,
+  Dimensions,
+  FlatList,
+  ImageBackground,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  Text,
+  View,
 } from "react-native";
 import Animated from "react-native-reanimated";
 
