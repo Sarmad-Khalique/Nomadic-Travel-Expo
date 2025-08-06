@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { Alert } from "react-native";
 import { useAuthStore } from "../../store/authStore";
-import { LoginFormData, RegisterFormData } from "../../types";
+import { ForgetPasswordData, LoginFormData, RegisterPayload, VerificationFormData } from "../../types";
 
 const API = axios.create({
   baseURL: "https://2ca325186529.ngrok-free.app/api",
@@ -62,11 +62,16 @@ API.interceptors.response.use(
   }
 );
 
-export const registerUser = (
-  data: RegisterFormData
-): Promise<AxiosResponse> => {
-  return API.post("/accounts/register/", data);
+
+export const registerUser = (data: RegisterPayload) => {
+  return API.post('/accounts/register/', data);
 };
+
+// export const registerUser = (
+//   data: RegisterFormData
+// ): Promise<AxiosResponse> => {
+//   return API.post("/accounts/register/", data);
+// };
 
 export const loginUser = (
   data: LoginFormData
@@ -80,14 +85,10 @@ export const loginUser = (
     });
 };
 
-export const sendResetPasswordLink = (
-  email: string
-): Promise<AxiosResponse> => {
-  return API.post("/accounts/send-reset-password-link/", { email }).then(
-    (response) => {
-      return response;
-    }
-  );
-};
+export const sendResetPasswordLink = ({ email }: ForgetPasswordData): Promise<AxiosResponse> =>
+  API.post('/accounts/send-reset-password-link/', { email });
 
+export const sendVerificationEmail = ({email}: VerificationFormData ): Promise<AxiosResponse> => {
+  return API.post('/accounts/verification-email/', email);
+};
 export default API;

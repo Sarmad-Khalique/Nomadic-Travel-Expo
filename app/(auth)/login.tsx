@@ -169,6 +169,7 @@ export default function LoginScreen() {
       <AppButton
         title="Login with Google"
         size="md"
+        onPress={() => router.push("/(auth)/verify-accont")}
         variant="outline"
         className="mb-4"
         iconLeft={require("../../assets/images/auth/googleIcon.png")}
