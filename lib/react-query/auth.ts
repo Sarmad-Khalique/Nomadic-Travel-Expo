@@ -1,6 +1,10 @@
-import { useMutation } from '@tanstack/react-query';
-import { LoginFormData, RegisterPayload } from '../../types';
-import { loginUser, registerUser, sendResetPasswordLink } from '../api/auth';
+import { useMutation } from "@tanstack/react-query";
+import {
+  ForgetPasswordData,
+  LoginFormData,
+  RegisterPayload,
+} from "../../types";
+import { loginUser, registerUser, sendResetPasswordLink } from "../api/auth";
 
 
 export const useRegister = () =>
@@ -13,7 +17,9 @@ export const useLogin = () =>
     mutationFn: (data: LoginFormData) => loginUser(data),
   });
 
-export const useForgotPassword = () =>
+export const useSendResetPasswordLink = () =>
   useMutation({
-    mutationFn: (email: string) => sendResetPasswordLink(email),
+    mutationFn: async (data: ForgetPasswordData) => {
+      return await sendResetPasswordLink(data.email);
+    },
   });
