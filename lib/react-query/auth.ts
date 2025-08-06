@@ -6,6 +6,7 @@ import {
 } from "../../types";
 import { loginUser, registerUser, sendResetPasswordLink } from "../api/auth";
 
+
 export const useRegister = () =>
   useMutation({
     mutationFn: (data: RegisterPayload) => registerUser(data),
