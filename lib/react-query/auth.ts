@@ -1,10 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
-import { LoginFormData, RegisterFormData } from '../../types';
+import { LoginFormData, RegisterPayload } from '../../types';
 import { loginUser, registerUser, sendResetPasswordLink } from '../api/auth';
+
 
 export const useRegister = () =>
   useMutation({
-    mutationFn: (data: RegisterFormData) => registerUser(data),
+    mutationFn: (data: RegisterPayload) => registerUser(data),
   });
 
 export const useLogin = () =>

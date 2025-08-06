@@ -1,9 +1,5 @@
-export interface RegisterFormData {
+export type RegisterPayload = {
   email: string;
   password: string;
-}
-
-export interface LoginFormData {
-  email: string;
-  password: string;
-}
+  full_name: string;
+};
