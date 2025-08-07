@@ -10,11 +10,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import MapView, { Marker } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AppButton from "../components/Button";
 import AppSpecialList from "../components/homeScreen/AppSpecialList";
 import CategorySelector from "../components/homeScreen/CategorySelector";
+import LocationMap from "../components/homeScreen/LocationMap";
 import PackageCard from "../components/homeScreen/PackageCard";
 import { useDestinations } from "../lib/react-query/destination"; // React Query hook for fetching data
 import { useHomeStore } from "../store/homeStore"; // Import the Zustand store
@@ -31,6 +31,58 @@ function extractLatLng(
   }
   return null;
 }
+
+// Static destination data for testing
+const staticDestinations = [
+  {
+    id: 1,
+    name: "The Pink Beach",
+    location: "Komodo Island, Indonesia",
+    location_url: "https://maps.google.com/?q=-8.5833,119.4333",
+    description: "Beautiful pink sand beach with crystal clear waters",
+    price: "$48/Person",
+    rating: "4.1",
+    facilities: [{ id: 1, name: "Beach Access" }, { id: 2, name: "Snorkeling" }],
+    categories: [{ id: 1, name: "Beach" }, { id: 2, name: "Island" }],
+    images: [{ id: 1, image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400" }]
+  },
+  {
+    id: 2,
+    name: "Mountain Paradise",
+    location: "Swiss Alps, Switzerland",
+    location_url: "https://maps.google.com/?q=46.8182,8.2275",
+    description: "Stunning mountain views and hiking trails",
+    price: "$120/Person",
+    rating: "4.8",
+    facilities: [{ id: 3, name: "Hiking Trails" }, { id: 4, name: "Cable Car" }],
+    categories: [{ id: 3, name: "Mountain" }, { id: 4, name: "Adventure" }],
+    images: [{ id: 2, image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400" }]
+  },
+  {
+    id: 3,
+    name: "Desert Adventure",
+    location: "Sahara Desert, Morocco",
+    location_url: "https://maps.google.com/?q=31.7917,-7.0926",
+    description: "Experience the vast Sahara desert landscape",
+    price: "$75/Person",
+    rating: "4.3",
+    facilities: [{ id: 5, name: "Camel Tours" }, { id: 6, name: "Desert Camp" }],
+    categories: [{ id: 5, name: "Desert" }, { id: 6, name: "Cultural" }],
+    images: [{ id: 3, image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400" }]
+  },
+  {
+    id: 4,
+    name: "Tropical Island",
+    location: "Maldives Islands",
+    location_url: "https://maps.google.com/?q=3.2028,73.2207",
+    description: "Paradise island with overwater bungalows",
+    price: "$200/Person",
+    rating: "4.9",
+    facilities: [{ id: 7, name: "Overwater Bungalows" }, { id: 8, name: "Diving" }],
+    categories: [{ id: 7, name: "Island" }, { id: 8, name: "Luxury" }],
+    images: [{ id: 4, image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400" }]
+  }
+];
 
 const HomeScreen = () => {
   const { setHomeData } = useHomeStore(); // Access the store action
@@ -114,7 +166,7 @@ const HomeScreen = () => {
           {/* Destinations Banner */}
           <View className="mt-4">
             <View className="flex-row justify-between items-center mb-2">
-              <Text className="text-[24px] font-merriweather-regular text-black">Best Destination</Text>
+              <Text className="text-[24px] font-merriweather-bold text-black">Best Destination</Text>
               <TouchableOpacity>
                 <Text className="text-primary font-semibold">See all</Text>
               </TouchableOpacity>
@@ -124,9 +176,16 @@ const HomeScreen = () => {
                 <ActivityIndicator size="large" color={COLORS.primary} />
               </View>
             ) : isError ? (
-              <View className="py-8 items-center justify-center">
-                <Text className="text-red-600">Error loading destinations</Text>
-              </View>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                className="mt-2"
+                contentContainerStyle={{ gap: 16 }}
+              >
+                {staticDestinations.map((destination, index) => (
+                  <PackageCard key={index} packageData={destination} />
+                ))}
+              </ScrollView>
             ) : (
               <ScrollView
                 horizontal
@@ -203,41 +262,8 @@ const HomeScreen = () => {
             )}
           </View>
 
-          {/* Map Section */}
-          <View className="mt-4 rounded-xl overflow-hidden" style={{ height: 220 }}>
-            {isLoading ? (
-              <View className="flex-1 items-center justify-center">
-                <ActivityIndicator size="large" color={COLORS.primary} />
-              </View>
-            ) : isError ? (
-              <View className="flex-1 items-center justify-center">
-                <Text className="text-red-600">Error loading destinations</Text>
-              </View>
-            ) : (
-              <MapView
-                style={{ flex: 1 }}
-                initialRegion={{
-                  latitude: 31.5497, // Default to Lahore
-                  longitude: 74.3436,
-                  latitudeDelta: 5,
-                  longitudeDelta: 5,
-                }}
-              >
-                {data?.map((destination: Destination, idx: number) => {
-                  const coords = extractLatLng(destination.location_url);
-                  if (!coords) return null;
-                  return (
-                    <Marker
-                      key={idx}
-                      coordinate={coords}
-                      title={destination.name}
-                      description={destination.location}
-                    />
-                  );
-                })}
-              </MapView>
-            )}
-          </View>
+          {/* Location Map */}
+          <LocationMap />
 
           {/* Explore More Button */}
           <AppButton
