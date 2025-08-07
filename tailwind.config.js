@@ -6,6 +6,7 @@ module.exports = {
     extend: {
       fontFamily: {
         'merriweather-bold': ['Merriweather-Bold'],
+        'merriweather-regular': ['Merriweather-Regular'],
         'poppins-regular': ['Poppins-Regular'],
         
       },
