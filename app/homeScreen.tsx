@@ -16,6 +16,7 @@ import CategorySelector from "../components/homeScreen/CategorySelector";
 import LocationMap from "../components/homeScreen/LocationMap";
 import PackageCard from "../components/homeScreen/PackageCard";
 import RecommendedPackageCard from "../components/homeScreen/RecommendedPackageCard";
+import Sidebar from "../components/sidebar/Sidebar";
 import { useDestinations } from "../lib/react-query/destination";
 import { useHomeStore } from "../store/homeStore";
 import { Destination } from "../types/homeScreen";
@@ -89,6 +90,7 @@ const HomeScreen = () => {
   const [activeTab, setActiveTab] = useState<"Solo Trips" | "Family Trips">(
     "Solo Trips"
   );
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   const { data, isLoading, isError } = useDestinations();
 
@@ -103,14 +105,14 @@ const HomeScreen = () => {
       <ScrollView className="flex-1">
         <View className="px-6 pt-4 pb-20">
           {/* Header Section */}
-          <View className="flex-row items-center justify-between mb-6">
-            <TouchableOpacity className="mr-4">
-              {/* Menu Icon */}
-              <Image
-                source={require("../assets/images/home/Menu.png")}
-                className="w-6 h-6"
-              />
-            </TouchableOpacity>
+                       <View className="flex-row items-center justify-between mb-6">
+               <TouchableOpacity className="mr-4" onPress={() => setIsSidebarVisible(true)}>
+                 {/* Menu Icon */}
+                 <Image
+                   source={require("../assets/images/home/Menu.png")}
+                   className="w-6 h-6"
+                 />
+               </TouchableOpacity>
             <View className="flex-row items-center flex-1 justify-center">
               <Image
                 source={require("../assets/images/home/Location icon.png")}
@@ -291,6 +293,12 @@ const HomeScreen = () => {
           <AppSpecialList className="mt-8" />
         </View>
       </ScrollView>
+      
+      {/* Sidebar */}
+      <Sidebar 
+        isVisible={isSidebarVisible} 
+        onClose={() => setIsSidebarVisible(false)} 
+      />
     </SafeAreaView>
   );
 };
