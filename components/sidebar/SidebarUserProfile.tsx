@@ -1,10 +1,6 @@
 import React from 'react';
 import { Image, Text, View } from 'react-native';
-import { UserProfile } from '../../types/sidebar';
-
-interface SidebarUserProfileProps {
-  userProfile: UserProfile;
-}
+import { SidebarUserProfileProps } from '../../types';
 
 const SidebarUserProfile: React.FC<SidebarUserProfileProps> = ({ userProfile }) => {
   return (

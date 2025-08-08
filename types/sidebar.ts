@@ -35,3 +35,44 @@ export type SidebarProps = {
   isVisible: boolean;
   onClose: () => void;
 };
+
+// Component props schemas
+export const sidebarHeaderPropsSchema = z.object({
+  onClose: z.function(),
+});
+
+export type SidebarHeaderProps = {
+  onClose: () => void;
+};
+
+export const sidebarUserProfilePropsSchema = z.object({
+  userProfile: userProfileSchema,
+});
+
+export type SidebarUserProfileProps = {
+  userProfile: UserProfile;
+};
+
+export const sidebarMenuItemPropsSchema = z.object({
+  item: menuItemSchema,
+  onPress: z.function(),
+  onSubItemPress: z.function(),
+});
+
+export type SidebarMenuItemProps = {
+  item: MenuItem;
+  onPress: () => void;
+  onSubItemPress: (subItemId: string) => void;
+};
+
+export const toastPropsSchema = z.object({
+  message: z.string(),
+  visible: z.boolean(),
+  onHide: z.function(),
+});
+
+export type ToastProps = {
+  message: string;
+  visible: boolean;
+  onHide: () => void;
+};

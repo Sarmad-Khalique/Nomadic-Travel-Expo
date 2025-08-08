@@ -1,13 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { MenuItem } from '../../types/sidebar';
-
-interface SidebarMenuItemProps {
-  item: MenuItem;
-  onPress: () => void;
-  onSubItemPress: (subItemId: string) => void;
-}
+import { SidebarMenuItemProps } from '../../types';
 
 // Icon mapping to avoid dynamic require
 const getIconSource = (iconName: string) => {

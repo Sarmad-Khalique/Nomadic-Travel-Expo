@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Animated, ScrollView, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSidebarStore } from '../../store/sidebarStore';
-import { SidebarProps } from '../../types/sidebar';
+import { SidebarProps } from '../../types';
 import SidebarHeader from './SidebarHeader';
 import SidebarMenuItem from './SidebarMenuItem';
 import SidebarUserProfile from './SidebarUserProfile';

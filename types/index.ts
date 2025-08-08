@@ -1,5 +1,6 @@
-export * from './api';
-export * from './forms';
+// Export all types from sidebar
+export * from './sidebar';
+
+// Export all types from homeScreen
 export * from './homeScreen';
-export * from './onboarding';
 

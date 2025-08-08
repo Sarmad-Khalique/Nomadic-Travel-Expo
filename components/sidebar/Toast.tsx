@@ -1,11 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Text } from 'react-native';
-
-interface ToastProps {
-  message: string;
-  visible: boolean;
-  onHide: () => void;
-}
+import { ToastProps } from '../../types';
 
 const Toast: React.FC<ToastProps> = ({ message, visible, onHide }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;

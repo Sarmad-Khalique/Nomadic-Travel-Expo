@@ -1,9 +1,6 @@
 import React from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
-
-interface SidebarHeaderProps {
-  onClose: () => void;
-}
+import { SidebarHeaderProps } from '../../types';
 
 const SidebarHeader: React.FC<SidebarHeaderProps> = ({ onClose }) => {
   return (
