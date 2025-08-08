@@ -3,9 +3,9 @@ import {
   ForgetPasswordData,
   LoginFormData,
   RegisterPayload,
+  VerificationFormData,
 } from "../../types";
-import { loginUser, registerUser, sendResetPasswordLink } from "../api/auth";
-
+import { loginUser, registerUser, sendResetPasswordLink, sendVerificationEmail } from "../api/auth";
 
 export const useRegister = () =>
   useMutation({
@@ -19,7 +19,10 @@ export const useLogin = () =>
 
 export const useSendResetPasswordLink = () =>
   useMutation({
-    mutationFn: async (data: ForgetPasswordData) => {
-      return await sendResetPasswordLink(data.email);
-    },
+    mutationFn: (data: ForgetPasswordData) => sendResetPasswordLink(data),
+  });
+
+ export const useSendVerificationEmail = () =>
+  useMutation({
+    mutationFn: (email: VerificationFormData) => sendVerificationEmail(email),
   });
