@@ -4,7 +4,7 @@ import { useAuthStore } from "../../store/authStore";
 import { LoginFormData, RegisterFormData } from "../../types";
 
 const API = axios.create({
-  baseURL: "https://2ca325186529.ngrok-free.app/api",
+  baseURL: "https://powerseller-sample-beth-mega.trycloudflare.com//api",
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
