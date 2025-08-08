@@ -1,23 +1,26 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import { useHomeStore } from '../../store/homeStore';
+import { City, LocationMapProps } from '../../types/homeScreen';
 
-// Major cities of Pakistan
-const pakistanCities = [
-  { name: "Lahore", latitude: 31.5497, longitude: 74.3436 },
-  { name: "Karachi", latitude: 24.8607, longitude: 67.0011 },
-  { name: "Islamabad", latitude: 33.6844, longitude: 73.0479 },
-  { name: "Peshawar", latitude: 34.0150, longitude: 71.5249 },
-  { name: "Quetta", latitude: 30.1798, longitude: 66.9749 },
-  { name: "Multan", latitude: 30.1575, longitude: 71.5249 },
-  { name: "Faisalabad", latitude: 31.4504, longitude: 73.1350 },
-  { name: "Rawalpindi", latitude: 33.5651, longitude: 73.0169 },
-];
+const LocationMap: React.FC<LocationMapProps> = () => {
+  const { cities } = useHomeStore();
 
-const LocationMap: React.FC = () => {
+  // Default region for Pakistan
+  const defaultRegion = {
+    latitude: 30.5,
+    longitude: 70.0,
+    latitudeDelta: 25,
+    longitudeDelta: 25,
+  };
+
   return (
     <View className="mt-4">
-      <Text className="text-[24px] font-merriweather-bold text-black mb-2">Location</Text>
+      <View className="flex-row items-center mb-2">
+        <Text className="text-2xl mr-2">📍</Text>
+        <Text className="text-[24px] font-merriweather-bold text-black">Location</Text>
+      </View>
       <View
         className="rounded-3xl overflow-hidden"
         style={{
@@ -27,14 +30,9 @@ const LocationMap: React.FC = () => {
         }}
       >
         <MapView
-          key="pakistan-map"
+          key={`pakistan-map-${Date.now()}`}
           style={{ flex: 1 }}
-          initialRegion={{
-            latitude: 30.5,
-            longitude: 70.0,
-            latitudeDelta: 20,
-            longitudeDelta: 20,
-          }}
+          initialRegion={defaultRegion}
           scrollEnabled={true}
           zoomEnabled={true}
           rotateEnabled={false}
@@ -42,7 +40,7 @@ const LocationMap: React.FC = () => {
           showsUserLocation={false}
           showsMyLocationButton={false}
         >
-          {pakistanCities.map((city, idx) => (
+          {cities.map((city: City, idx: number) => (
             <Marker
               key={idx}
               coordinate={{
@@ -51,6 +49,7 @@ const LocationMap: React.FC = () => {
               }}
               title={city.name}
               description="City in Pakistan"
+              pinColor="yellow"
             />
           ))}
         </MapView>

@@ -1,14 +1,13 @@
 // app/HomeScreen.tsx
-import { COLORS } from "@/constants/colors";
 import React, { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
   Image,
   ImageBackground,
   ScrollView,
   Text,
+  TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AppButton from "../components/Button";
@@ -16,8 +15,9 @@ import AppSpecialList from "../components/homeScreen/AppSpecialList";
 import CategorySelector from "../components/homeScreen/CategorySelector";
 import LocationMap from "../components/homeScreen/LocationMap";
 import PackageCard from "../components/homeScreen/PackageCard";
-import { useDestinations } from "../lib/react-query/destination"; // React Query hook for fetching data
-import { useHomeStore } from "../store/homeStore"; // Import the Zustand store
+import RecommendedPackageCard from "../components/homeScreen/RecommendedPackageCard";
+import { useDestinations } from "../lib/react-query/destination";
+import { useHomeStore } from "../store/homeStore";
 import { Destination } from "../types/homeScreen";
 
 // Utility to extract lat/lng from Google Maps URL
@@ -33,7 +33,7 @@ function extractLatLng(
 }
 
 // Static destination data for testing
-const staticDestinations = [
+const staticDestinations: Destination[] = [
   {
     id: 1,
     name: "The Pink Beach",
@@ -85,18 +85,18 @@ const staticDestinations = [
 ];
 
 const HomeScreen = () => {
-  const { setHomeData } = useHomeStore(); // Access the store action
+  const { setHomeData } = useHomeStore();
   const [activeTab, setActiveTab] = useState<"Solo Trips" | "Family Trips">(
     "Solo Trips"
   );
 
-  const { data, isLoading, isError } = useDestinations(); // React Query hook for fetching data
+  const { data, isLoading, isError } = useDestinations();
 
   useEffect(() => {
     if (data) {
-      setHomeData(data); // Update the state with the fetched data
+      setHomeData(data as Destination[]);
     }
-  }, [data]);
+  }, [data, setHomeData]);
 
   return (
     <SafeAreaView className="flex-1 bg-background">
@@ -155,11 +155,16 @@ const HomeScreen = () => {
               </View>
             </View>
           </View>
-          {/* Search Bar */}
-          <View className="flex-row items-center bg-white rounded-xl px-4 py-2 mb-4 shadow-sm">
-            <Text className="text-xl mr-2">🔍</Text>
-            <Text className="text-gray-400 flex-1">Find things to do</Text>
-          </View>
+                      {/* Search Bar */}
+            <View className="flex-row items-center bg-white rounded-xl px-4 py-0 mb-4 shadow-sm">
+              <Text className="text-xl mr-2">🔍</Text>
+              <TextInput 
+                className="text-gray-700 flex-1"
+                placeholder="Find things to do"
+                placeholderTextColor="#9CA3AF"
+                style={{ fontSize: 15 }}
+              />
+            </View>
           {/* Category Selector */}
           <CategorySelector />
 
@@ -168,10 +173,11 @@ const HomeScreen = () => {
             <View className="flex-row justify-between items-center mb-2">
               <Text className="text-[24px] font-merriweather-bold text-black">Best Destination</Text>
               <TouchableOpacity>
-                <Text className="text-primary font-semibold">See all</Text>
+                <Text className="text-red-500 font-semibold">View all</Text>
               </TouchableOpacity>
             </View>
-            {isLoading ? (
+            {/* Dynamic loading logic - commented for later use */}
+            {/* {isLoading ? (
               <View className="py-8 items-center justify-center">
                 <ActivityIndicator size="large" color={COLORS.primary} />
               </View>
@@ -193,11 +199,21 @@ const HomeScreen = () => {
                 className="mt-2"
                 contentContainerStyle={{ gap: 16 }}
               >
-                {data?.map((destination: Destination, index: number) => (
+                {(data as Destination[])?.map((destination: Destination, index: number) => (
                   <PackageCard key={index} packageData={destination} />
                 ))}
               </ScrollView>
-            )}
+            )} */}
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              className="mt-2"
+              contentContainerStyle={{ gap: 16 }}
+            >
+              {staticDestinations.map((destination, index) => (
+                <PackageCard key={index} packageData={destination} />
+              ))}
+            </ScrollView>
           </View>
 
           {/* Recommended Packages */}
@@ -207,59 +223,57 @@ const HomeScreen = () => {
                 Recommended Package
               </Text>
               <TouchableOpacity>
-                <Text className="text-primary font-semibold">See all</Text>
+                <Text className="text-red-500 font-semibold">View all</Text>
               </TouchableOpacity>
             </View>
             {/* Tabs */}
-            <View className="flex-row mb-2">
+            <View className="flex-row mb-2 bg-gray-200 rounded-full p-1">
               <TouchableOpacity
-                className={`px-4 py-2 rounded-l-full ${
-                  activeTab === "Solo Trips" ? "bg-primary" : "bg-gray-200"
+                className={`px-4 py-2 rounded-full flex-1 ${
+                  activeTab === "Solo Trips" ? "bg-red-500" : "bg-transparent"
                 }`}
                 onPress={() => setActiveTab("Solo Trips")}
               >
                 <Text
                   className={`${
-                    activeTab === "Solo Trips" ? "text-white" : "text-gray-500"
-                  } font-semibold`}
+                    activeTab === "Solo Trips" ? "text-white" : "text-red-400"
+                  } font-semibold text-center`}
                 >
                   Solo Trips
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                className={`px-4 py-2 rounded-r-full ml-2 ${
-                  activeTab === "Family Trips" ? "bg-primary" : "bg-gray-200"
+                className={`px-4 py-2 rounded-full flex-1 ${
+                  activeTab === "Family Trips" ? "bg-red-500" : "bg-transparent"
                 }`}
                 onPress={() => setActiveTab("Family Trips")}
               >
                 <Text
                   className={`${
-                    activeTab === "Family Trips" ? "text-white" : "text-gray-500"
-                  } font-semibold`}
+                    activeTab === "Family Trips" ? "text-white" : "text-red-400"
+                  } font-semibold text-center`}
                 >
                   Family Trips
                 </Text>
               </TouchableOpacity>
             </View>
-            {isLoading ? (
-              <View className="py-8 items-center justify-center">
-                <ActivityIndicator size="large" color={COLORS.primary} />
-              </View>
-            ) : isError ? (
-              <View className="py-8 items-center justify-center">
-                <Text className="text-red-600">Error loading destinations</Text>
-              </View>
-            ) : (
-              <View className="flex-row flex-wrap justify-between">
-                {data
-                  ?.slice(0, 4)
-                  .map((destination: Destination, index: number) => (
-                    <View key={index} style={{ width: "48%", marginBottom: 12 }}>
-                      <PackageCard packageData={destination} />
-                    </View>
-                  ))}
-              </View>
-            )}
+                        <View className="flex-row flex-wrap justify-between">
+              {/* Dynamic API data - commented for later use */}
+              {/* {(data as Destination[])
+                ?.slice(0, 4)
+                .map((destination: Destination, index: number) => (
+                  <View key={index} style={{ width: "48%", marginBottom: 12 }}>
+                    <RecommendedPackageCard packageData={destination} />
+                  </View>
+                ))} */}
+              {staticDestinations
+                .slice(0, 4)
+                .map((destination, index) => (
+                  <View key={index} style={{ width: "48%", marginBottom: 12 }}>
+                    <RecommendedPackageCard packageData={destination} />
+                  </View>
+                ))}
+            </View>
           </View>
 
           {/* Location Map */}
