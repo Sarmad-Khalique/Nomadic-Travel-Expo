@@ -35,23 +35,22 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
             behavior={Platform.OS === 'ios' ? 'padding' : undefined}
             className="w-full items-center"
           >
-            {/* Stop propagation when touching inside modal */}
             <TouchableWithoutFeedback>
               <View className="bg-white p-6 rounded-xl items-center w-full">
                 {icon && (
                   <Image
                     source={icon}
-                    className="w-14 h-14 mb-4"
+                    className="w-24 h-24 mb-6" // Increased size from w-14 h-14
                     resizeMode="contain"
                   />
                 )}
                 {title && (
-                  <Text className="font-merriweather-bold text-lg text-black mb-1">
+                  <Text className="font-merriweather-bold text-2xl text-black mb-2">
                     {title}
                   </Text>
                 )}
                 {message && (
-                  <Text className="text-center text-text font-poppins-regular">
+                  <Text className="text-center text-text font-poppins-regular text-lg">
                     {message}
                   </Text>
                 )}
